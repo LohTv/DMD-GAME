@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://yw4t7yajogna"]
+
+[ext_resource type="Script" uid="uid://la60bueba8j5" path="res://addons/gevp/scripts/vehicle_controllergd.gd" id="1_ed07j"]
+[ext_resource type="PackedScene" uid="uid://fo6kt54q87tf" path="res://addons/gevp/scenes/arcade_car.tscn" id="2_846wr"]
+[ext_resource type="Script" uid="uid://du2mysw30vvc1" path="res://addons/gevp/scripts/camera.gd" id="3_imuxn"]
+
+[node name="Car" type="Node3D"]
+
+[node name="VehicleController" type="Node3D" parent="." node_paths=PackedStringArray("vehicle_node")]
+script = ExtResource("1_ed07j")
+vehicle_node = NodePath("VehicleRigidBody")
+
+[node name="VehicleRigidBody" parent="VehicleController" instance=ExtResource("2_846wr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.385995, 0.757307, 48.1712)
+
+[node name="Camera3D" type="Camera3D" parent="VehicleController" node_paths=PackedStringArray("follow_this")]
+script = ExtResource("3_imuxn")
+follow_this = NodePath("../VehicleRigidBody")

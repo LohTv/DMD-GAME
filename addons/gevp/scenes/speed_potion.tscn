@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://dw0thrijkxsxf"]
+
+[ext_resource type="Script" uid="uid://s2iegottrciw" path="res://scripts/speed_potion.gd" id="1_mcssi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ofiru"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mcssi"]
+material = SubResource("StandardMaterial3D_ofiru")
+
+[sub_resource type="PrismMesh" id="PrismMesh_swi3p"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_swi3p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ptgvy"]
+size = Vector3(1, 0.995117, 1)
+
+[node name="SpeedPotion" type="RigidBody3D" groups=["pickup"]]
+collision_layer = 2
+script = ExtResource("1_mcssi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.23247, 0, 0, 0, 0.67083, 0, 0, 0, 0.23247, 0, 0, 0)
+layers = 2
+mesh = SubResource("BoxMesh_mcssi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.236889, 0, 0, 0, 0.236889, 0, 0, 0, 0.236889, 0, 0.411793, 0)
+layers = 2
+mesh = SubResource("PrismMesh_swi3p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.332121, 0, 0, 0, 0.332121, 0, 0, 0, 0.332121, 0, 0, 0)
+shape = SubResource("CylinderShape3D_swi3p")
+
+[node name="PlayerDetecter" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDetecter"]
+transform = Transform3D(0.674547, 0, 0, 0, 1.30151, 0, 0, 0, 0.7578, 0.0445849, 0.136773, 0.00177908)
+shape = SubResource("BoxShape3D_ptgvy")
+
+[connection signal="body_entered" from="PlayerDetecter" to="." method="_on_player_detecter_body_entered"]
+[connection signal="body_exited" from="PlayerDetecter" to="." method="_on_player_detecter_body_exited"]

@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://bs72ogkvdd7d6"]
+
+[ext_resource type="Script" uid="uid://cxcuhtfqv4xi1" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
+[ext_resource type="AudioStream" uid="uid://de7qcvv48wrnj" path="res://addons/proto_controller/Walking in the classroom.mp3" id="2_wr06p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
+albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ucva2"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iof21"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wr06p"]
+albedo_color = Color(0.205117, 0.205117, 0.205117, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wr06p"]
+material = SubResource("StandardMaterial3D_wr06p")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5hfox"]
+albedo_color = Color(0.303233, 0.303233, 0.303233, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5hfox"]
+material = SubResource("StandardMaterial3D_5hfox")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6dqce"]
+albedo_color = Color(1, 0.658824, 0, 0.662745)
+emission_enabled = true
+emission = Color(1, 0.662745, 0.32549, 1)
+emission_energy_multiplier = 2.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_0rk7u"]
+material = SubResource("StandardMaterial3D_6dqce")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wr06p"]
+
+[node name="ProtoController" type="CharacterBody3D"]
+platform_floor_layers = 4294967041
+platform_wall_layers = 1
+script = ExtResource("1_ucva2")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+material_override = SubResource("StandardMaterial3D_iof21")
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_ucva2")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_iof21")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="Gun" type="MeshInstance3D" parent="Head/Camera3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.44982, 0, 0, 0, 0.144, 0.5, -0.5, -0.9)
+visible = false
+mesh = SubResource("BoxMesh_wr06p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D/Gun"]
+transform = Transform3D(1, 0, 0, 0, 0.36, 0, 0, 0, 5.7, 0, 0.444622, -2.08334)
+mesh = SubResource("BoxMesh_5hfox")
+
+[node name="Pos" type="Node3D" parent="Head/Camera3D/Gun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.37833, -10.4861)
+
+[node name="ShotFlash" type="MeshInstance3D" parent="Head/Camera3D"]
+transform = Transform3D(-0.000170743, 0, 5.18649, 0, 4.97659, 0, -0.0978255, 0, -0.00905246, 0.02, 0.45, -1.46)
+visible = false
+mesh = SubResource("BoxMesh_0rk7u")
+
+[node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_wr06p")
+volume_db = 1.0
+
+[node name="PickUpArea" type="Area3D" parent="."]
+collision_layer = 3
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickUpArea"]
+transform = Transform3D(-2.9, 0, 0, 0, 3.06, 0, 0, 0, 3.01, 0.04, 0.9, 0.00999999)
+shape = SubResource("BoxShape3D_wr06p")
+
+[connection signal="body_entered" from="PickUpArea" to="." method="_on_pick_up_area_body_entered"]
+[connection signal="body_exited" from="PickUpArea" to="." method="_on_pick_up_area_body_exited"]

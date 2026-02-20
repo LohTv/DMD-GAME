@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://63d8rj1g0582"]
+
+[ext_resource type="Script" uid="uid://cctyjkuqnr2d1" path="res://scripts/bullet.gd" id="1_ld8ob"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ixfeu"]
+margin = 0.0
+size = Vector3(0.2, 0.2, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ld8ob"]
+albedo_color = Color(1, 0.835294, 0.0392157, 1)
+metallic = 1.0
+emission_enabled = true
+emission = Color(0.843154, 0.775637, 0, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_jmdkl"]
+material = SubResource("StandardMaterial3D_ld8ob")
+size = Vector3(0.2, 0.2, 0.7)
+
+[node name="Bullet" type="CharacterBody3D"]
+script = ExtResource("1_ld8ob")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.983544, 0, 0, 0, 0.307876, 0, 0, 0, 0.857335, 0, 0, 0)
+shape = SubResource("BoxShape3D_ixfeu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.92929, 0, 0, 0, 1.44445, 0, 0, 0, 1.17882, 0, 0, 0)
+mesh = SubResource("BoxMesh_jmdkl")

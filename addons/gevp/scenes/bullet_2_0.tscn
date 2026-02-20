@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqy4lwhs51sdn"]
+
+[ext_resource type="Script" uid="uid://c8xxisfxrbquw" path="res://scripts/bullet_2_0.gd" id="1_5mack"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5mack"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ld8ob"]
+albedo_color = Color(1, 0.835294, 0.0392157, 1)
+metallic = 1.0
+emission_enabled = true
+emission = Color(0.843154, 0.775637, 0, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_34qu1"]
+material = SubResource("StandardMaterial3D_ld8ob")
+size = Vector3(0.2, 0.2, 0.7)
+
+[node name="Bullet2_0" type="RigidBody3D"]
+transform = Transform3D(1.73724, 0, 0, 0, 1.26318, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 0
+script = ExtResource("1_5mack")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.289626, 0, 0, 0, 0.331249, 0, 0, 0, 0.857335, 0, 0, 0)
+shape = SubResource("BoxShape3D_5mack")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.803504, 0, 0, 0, -0.625661, 0, 0, 0, 0.942078, 0, 0, 0)
+layers = 2
+mesh = SubResource("BoxMesh_34qu1")

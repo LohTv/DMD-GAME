@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbpb3onget5v4"]
+
+[ext_resource type="Script" uid="uid://w0ka8ao8vva7" path="res://addons/gevp/scenes/drink.gd" id="1_lotm1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_24n4l"]
+albedo_color = Color(0.312885, 0.408936, 0.209248, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lotm1"]
+material = SubResource("StandardMaterial3D_24n4l")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccjlb"]
+albedo_color = Color(0.184314, 0.282353, 0.427451, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3mshj"]
+material = SubResource("StandardMaterial3D_ccjlb")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uqnh1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ccjlb"]
+size = Vector3(1, 0.995117, 1)
+
+[node name="Drink" type="RigidBody3D" groups=["pickup"]]
+collision_layer = 2
+collision_mask = 255
+mass = 1.5
+script = ExtResource("1_lotm1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.250116, 0, 0, 0, 0.300331, 0, 0, 0, 0.255588, 0, 0, 0)
+mesh = SubResource("CylinderMesh_lotm1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.141182, 0, 0, 0, 0.172855, 0, 0, 0, 0.147796, 0, 0.447202, 0)
+mesh = SubResource("CylinderMesh_3mshj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.27689, 0, 0, 0, 0.306337, 0, 0, 0, 0.293306, 0, 0, 0)
+shape = SubResource("CylinderShape3D_uqnh1")
+debug_color = Color(0.768107, 0.446423, 5.77569e-07, 0.42)
+
+[node name="PlayerDetecter" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDetecter"]
+transform = Transform3D(0.525887, 0, 0, 0, 1.01468, 0, 0, 0, 0.590792, 0, 0.178758, 0)
+shape = SubResource("BoxShape3D_ccjlb")
+
+[connection signal="body_entered" from="PlayerDetecter" to="." method="_on_player_detecter_body_entered"]
+[connection signal="body_exited" from="PlayerDetecter" to="." method="_on_player_detecter_body_exited"]

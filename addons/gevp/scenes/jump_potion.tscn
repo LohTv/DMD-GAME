@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0o2jhqecwa3b"]
+
+[ext_resource type="Script" uid="uid://osa1fqck5rnw" path="res://scripts/jump_potion.gd" id="1_bvvar"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aisrl"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5tlgk"]
+material = SubResource("StandardMaterial3D_aisrl")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5hwqn"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lun8v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5vj8b"]
+size = Vector3(1, 0.995117, 1)
+
+[node name="JumpPotion" type="RigidBody3D" groups=["pickup"]]
+collision_layer = 2
+script = ExtResource("1_bvvar")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.189155, 0, 0, 0, 0.272534, 0, 0, 0, 0.202774, 0, 0, 0)
+mesh = SubResource("CylinderMesh_5tlgk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.115089, 0, 0, 0, 0.135355, 0, 0, 0, 0.128846, 0, 0.343585, 0)
+mesh = SubResource("BoxMesh_5hwqn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.278962, 0, 0, 0, 0.278962, 0, 0, 0, 0.278962, 0, 0, 0)
+shape = SubResource("CylinderShape3D_lun8v")
+
+[node name="PlayerDetecter" type="Area3D" parent="." groups=["pickup"]]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDetecter"]
+transform = Transform3D(0.525887, 0, 0, 0, 1.01468, 0, 0, 0, 0.590792, 0, 0.178758, 0)
+shape = SubResource("BoxShape3D_5vj8b")
+
+[connection signal="body_entered" from="PlayerDetecter" to="." method="_on_player_detecter_body_entered"]
+[connection signal="body_exited" from="PlayerDetecter" to="." method="_on_player_detecter_body_exited"]
