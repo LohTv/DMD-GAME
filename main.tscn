@@ -1,0 +1,140 @@
+[gd_scene load_steps=18 format=3 uid="uid://cyotwjblexgut"]
+
+[ext_resource type="Script" uid="uid://la60bueba8j5" path="res://addons/gevp/scripts/vehicle_controllergd.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://fo6kt54q87tf" path="res://addons/gevp/scenes/arcade_car.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://du2mysw30vvc1" path="res://addons/gevp/scripts/camera.gd" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cbpb3onget5v4" path="res://addons/gevp/scenes/drink.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dyvpdl26llesk" path="res://addons/gevp/scenes/gun_no_1.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://d0o2jhqecwa3b" path="res://addons/gevp/scenes/jump_potion.tscn" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://dw0thrijkxsxf" path="res://addons/gevp/scenes/speed_potion.tscn" id="8_5vw27"]
+
+[sub_resource type="GDScript" id="GDScript_ig7tw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7dm0k"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_ig7tw"]
+sky_material = SubResource("ProceduralSkyMaterial_7dm0k")
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+background_mode = 2
+sky = SubResource("Sky_ig7tw")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_h2yge"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_color = Color(1, 0, 0, 1)
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_ig7tw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
+
+[node name="Main" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.126245, -0.400067, -0.21461)
+script = SubResource("GDScript_ig7tw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0xm2m")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.946273, -0.323048, -0.0143745, 0.161654, -0.511081, 0.844194, -0.280062, 0.796515, 0.535844, 0, 69.3458, 0)
+light_color = Color(0, 1, 1, 1)
+light_energy = 0.15
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(213.939, 0, 0, 0, 1, 0, 0, 0, 523.242, 0, 0, -9.79866)
+use_collision = true
+collision_layer = 3
+mesh = SubResource("BoxMesh_ig7tw")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
+transform = Transform3D(5.52658, 0, 0, 0, 13.7471, 0, 0, 0, 4.63977, 0, 0, 0)
+use_collision = true
+collision_layer = 3
+mesh = SubResource("CylinderMesh_h2yge")
+material = SubResource("StandardMaterial3D_lquwl")
+
+[node name="CSGMesh3D3" type="CSGMesh3D" parent="."]
+transform = Transform3D(6.89228, 0, 7.88325, 0, 32.0606, 0, -95.3819, 0, 0.569642, 17.0406, 2.63326, -0.190189)
+use_collision = true
+collision_layer = 3
+mesh = SubResource("PrismMesh_ig7tw")
+
+[node name="CSGMesh3D3" type="CSGMesh3D" parent="CSGMesh3D3"]
+transform = Transform3D(-0.180973, 0, 0.247688, 0, 3.80274, 0, -10.0366, 0, -0.00446637, 1.11899, 1.35617, 2.11578)
+use_collision = true
+collision_layer = 3
+mesh = SubResource("PrismMesh_ig7tw")
+
+[node name="player" parent="." instance=ExtResource("1_ig7tw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.44616, 0.5, 37.843)
+
+[node name="CarNode" type="Node3D" parent="." node_paths=PackedStringArray("vehicle_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50313, 45.1506)
+script = ExtResource("1_h2yge")
+vehicle_node = NodePath("VehicleRigidBody")
+
+[node name="VehicleRigidBody" parent="CarNode" instance=ExtResource("2_0xm2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0868869, 0)
+
+[node name="Player_detecer" type="Area3D" parent="CarNode/VehicleRigidBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0868869, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CarNode/VehicleRigidBody/Player_detecer"]
+transform = Transform3D(2.6168, 0, 0, 0, 2.66832, 0, 0, 0, 2.63263, 0, 0, 0)
+shape = SubResource("BoxShape3D_1bvp3")
+
+[node name="Camera3D" type="Camera3D" parent="CarNode" node_paths=PackedStringArray("follow_this")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36465, 1.97406)
+script = ExtResource("3_1bvp3")
+follow_this = NodePath("../VehicleRigidBody")
+
+[node name="Drink" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.99425, 0.800331, 30.3465)
+
+[node name="Drink2" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.22227, 0.800331, 28.4831)
+
+[node name="Drink3" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.71788, 0.800331, 26.1866)
+
+[node name="Drink4" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.26303, 0.800331, 23.9779)
+
+[node name="GunNo1" parent="." instance=ExtResource("6_7mycd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.77376, 0.700067, 31.3146)
+
+[node name="SpeedPotion" parent="." instance=ExtResource("8_5vw27")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.807554, 0.835416, 25.485)
+
+[node name="JumpPotion" parent="." instance=ExtResource("7_272bh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.83794, 0.772534, 26.5161)
+
+[node name="JumpPotion2" parent="." instance=ExtResource("7_272bh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.82935, 0.772534, 25.0974)
+
+[node name="JumpPotion3" parent="." instance=ExtResource("7_272bh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.95363, 0.772533, 23.6371)
+
+[node name="JumpPotion4" parent="." instance=ExtResource("7_272bh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.02729, 0.772534, 22.2337)
+
+[node name="CSGMesh3D4" type="CSGMesh3D" parent="."]
+transform = Transform3D(64.5847, 0, 0, 0, 77.0701, 0, 0, 0, 57.9319, 9.90815, 29.0894, -104.442)
+use_collision = true
+collision_layer = 3
+mesh = SubResource("CylinderMesh_h2yge")
+material = SubResource("StandardMaterial3D_lquwl")
+
+[connection signal="body_entered" from="CarNode/VehicleRigidBody/Player_detecer" to="CarNode" method="_on_player_detecer_body_entered"]
+[connection signal="body_exited" from="CarNode/VehicleRigidBody/Player_detecer" to="CarNode" method="_on_player_detecer_body_exited"]
